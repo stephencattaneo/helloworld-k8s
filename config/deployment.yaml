@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+# See: https://www.docker.com/blog/how-kubernetes-works-under-the-hood-with-docker-desktop/
+kind: Deployment
+metadata:
+  name: helloworld
+  namespace: hwk8s
+  labels:
+    app: hello-k8s
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-k8s
+  strategy:
+    type: Recreate
+
+  template:
+    metadata:
+      namespace: hwk8s
+      labels:
+        app: hello-k8s
+    spec:
+      containers:
+        - name: hwcontainer
+          image: local_image
+          # Use so that the local docker cache is used
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}

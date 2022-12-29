@@ -1,0 +1,17 @@
+# See: https://www.docker.com/blog/how-kubernetes-works-under-the-hood-with-docker-desktop/
+# Load Balancers are exposed outside of the cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld
+  namespace: hwk8s
+spec:
+  selector:
+    app: hello-k8s
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+status:
+  loadBalancer: {}
